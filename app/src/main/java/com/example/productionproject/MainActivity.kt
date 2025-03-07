@@ -52,6 +52,18 @@ fun MainPage(modifier: Modifier = Modifier) {
     }
 }
 
+@Composable
+fun ExpenseCard(modifier: Modifier = Modifier) {
+    Card(modifier = modifier) {
+        Row(modifier = Modifier) {
+
+            // Call another composable that holds the info
+            // Potentially add image of its expense category
+        }
+    }
+}
+
+
 @Preview(showBackground = true)
 @Composable
 fun MainPagePreview() {
@@ -59,3 +71,4 @@ fun MainPagePreview() {
         MainPage()
     }
 }
+

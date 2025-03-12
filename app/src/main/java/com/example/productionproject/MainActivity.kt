@@ -53,15 +53,29 @@ fun MainPage(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ExpenseCard(modifier: Modifier = Modifier) {
+fun ExpenseItem(modifier: Modifier = Modifier) {
     Card(modifier = modifier) {
         Row(modifier = Modifier) {
 
             // Call another composable that holds the info
+            ExpenseInfo()
             // Potentially add image of its expense category
         }
     }
 }
+
+@Composable
+fun ExpenseInfo(
+    title: String,
+    price: Double,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        Text(text = "Title: $title")
+        Text(text = "Price: $price")
+    }
+}
+
 
 
 @Preview(showBackground = true)

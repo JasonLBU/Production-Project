@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ProductionProjectTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainPage(modifier = Modifier.padding(innerPadding))
+                    ExpenseList(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainPage(modifier: Modifier = Modifier) {
+fun TestInput(modifier: Modifier = Modifier) {
     var textState by remember { mutableStateOf("") }
 
     Column(
@@ -53,6 +53,11 @@ fun MainPage(modifier: Modifier = Modifier) {
 }
 
 @Composable
+fun ExpenseList() {
+
+}
+
+@Composable
 fun ExpenseItem(modifier: Modifier = Modifier) {
     Card(modifier = modifier) {
         Row(modifier = Modifier) {
@@ -71,7 +76,9 @@ fun ExpenseInfo(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        Text(text = "Title: $title")
+        Text(
+            text = "Title: $title"
+        )
         Text(text = "Price: $price")
     }
 }
@@ -82,7 +89,7 @@ fun ExpenseInfo(
 @Composable
 fun MainPagePreview() {
     ProductionProjectTheme {
-        MainPage()
+        ExpenseList()
     }
 }
 

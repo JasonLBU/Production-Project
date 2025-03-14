@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">ProductionProject</string>
+
+
+    <string name="expense_1">Food Shopping</string>
+    <string name="expense_2">Clothes</string>
+    <string name="expense_3">Entertainment</string>
+    <string name="expense_4">Holidays</string>
+    <string name="expense_5">Movies</string>
+    <string name="expense_price_1">£5.00</string>
+    <string name="expense_price_2">£10.00</string>
+    <string name="expense_price_3">£30.00</string>
+    <string name="expense_price_4">£80.00</string>
+    <string name="expense_price_5">£40.00</string>
 </resources>

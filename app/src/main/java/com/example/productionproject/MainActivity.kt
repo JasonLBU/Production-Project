@@ -6,9 +6,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.productionproject.ui.theme.ProductionProjectTheme
@@ -53,18 +57,35 @@ fun TestInput(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ExpenseList() {
+fun ExpenseList(modifier: Modifier = Modifier) {
+    val expenses = listOf(
+        Pair(stringResource(id = R.string.expense_1), stringResource(id = R.string.expense_price_1)),
+        Pair(stringResource(id = R.string.expense_2), stringResource(id = R.string.expense_price_2)),
+        Pair(stringResource(id = R.string.expense_3), stringResource(id = R.string.expense_price_3)),
+        Pair(stringResource(id = R.string.expense_4), stringResource(id = R.string.expense_price_4)),
+        Pair(stringResource(id = R.string.expense_5), stringResource(id = R.string.expense_price_5))
+    )
 
+    LazyColumn(
+        modifier = modifier.padding(16.dp)
+    ) {
+        items(expenses) { expense ->
+            ExpenseItem(title = expense.first, price = expense.second)
+            Spacer(modifier = Modifier.height(8.dp)) // Space between items
+        }
+    }
 }
 
 @Composable
-fun ExpenseItem(modifier: Modifier = Modifier) {
-    Card(modifier = modifier) {
-        Row(modifier = Modifier) {
-
-            // Call another composable that holds the info
-            ExpenseInfo()
-            // Potentially add image of its expense category
+fun ExpenseItem(title: String, price: String, modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            ExpenseInfo(title = title, price = price)
         }
     }
 }
@@ -72,7 +93,7 @@ fun ExpenseItem(modifier: Modifier = Modifier) {
 @Composable
 fun ExpenseInfo(
     title: String,
-    price: Double,
+    price: String,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {

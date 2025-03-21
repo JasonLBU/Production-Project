@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ProductionProjectTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    ExpenseList(modifier = Modifier.padding(innerPadding))
+                    TestInput(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -33,8 +33,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun TestInput(modifier: Modifier = Modifier) {
-    var textState by remember { mutableStateOf("") }
-
+    var textState by remember { mutableStateOf("") } // For input text
+    val textList = remember { mutableStateListOf<String>() } // Corrected to mutableStateListOf
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -52,13 +52,24 @@ fun TestInput(modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(16.dp)) // Add space between UI elements
 
-        Text(text = "You typed: $textState")
         Button(onClick = {
-
+            if (textState.isNotBlank()) {
+                textList.add(textState) // Use add() for mutableStateListOf
+                textState = "" // Clear input field
+            }
         }) {
             Text(text = "Click me!")
 
         }
+
+        LazyColumn {
+            items(textList) { text ->
+                Text(text = text)
+                Spacer(modifier = Modifier.height(4.dp))
+
+            }
+        }
+
     }
 }
 

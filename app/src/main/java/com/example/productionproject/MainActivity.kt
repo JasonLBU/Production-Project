@@ -53,6 +53,12 @@ fun TestInput(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(16.dp)) // Add space between UI elements
 
         Text(text = "You typed: $textState")
+        Button(onClick = {
+
+        }) {
+            Text(text = "Click me!")
+
+        }
     }
 }
 
@@ -110,7 +116,7 @@ fun ExpenseInfo(
 @Composable
 fun MainPagePreview() {
     ProductionProjectTheme {
-        ExpenseList()
+        TestInput()
     }
 }
 

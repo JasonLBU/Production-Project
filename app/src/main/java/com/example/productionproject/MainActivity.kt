@@ -8,7 +8,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -24,7 +27,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ProductionProjectTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    bottomBar = { BottomNavBar() }
+                ) { innerPadding ->
                     TestInput(modifier = Modifier.padding(innerPadding))
                 }
             }
@@ -119,6 +125,23 @@ fun ExpenseInfo(
             text = "Title: $title"
         )
         Text(text = "Price: $price")
+    }
+}
+
+@Composable
+fun BottomNavBar() {
+    BottomAppBar(
+        modifier = Modifier.fillMaxWidth(),
+        contentPadding = PaddingValues(0.dp)
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            BottomNavButton(icon = Icons.Filled.Home, label = "Home")
+            BottomNavButton(icon = Icons.Filled.Search, label = "Search")
+            BottomNavButton(icon = Icons.Filled.Person, label = "Profile")
+        }
     }
 }
 

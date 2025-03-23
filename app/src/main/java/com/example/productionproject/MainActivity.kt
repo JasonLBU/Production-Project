@@ -147,16 +147,20 @@ fun BottomNavBar() {
 
 @Composable
 fun BottomNavButton(icon: ImageVector, label: String) {
-    IconButton(onClick = { /* Add navigation logic here later */ }) {
-        Column(
-            horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = "$label Icon"
-            )
-            Text(text = label)
-        }
+    Column(
+        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+        modifier = Modifier.padding(8.dp) // Add some padding around the button to avoid clipping
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = "$label Icon",
+            modifier = Modifier.size(24.dp)
+        )
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(top = 4.dp)
+        )
     }
 }
 

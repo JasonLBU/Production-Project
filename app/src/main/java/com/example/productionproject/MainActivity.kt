@@ -19,9 +19,18 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.productionproject.data.Purchase
+import com.example.productionproject.data.PurchaseDao
+import com.example.productionproject.data.PurchaseDatabase
 import com.example.productionproject.ui.theme.ProductionProjectTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : ComponentActivity() {
+    private lateinit var purchaseDao: PurchaseDao
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -31,17 +40,24 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = { BottomNavBar() }
                 ) { innerPadding ->
-                    TestInput(modifier = Modifier.padding(innerPadding))
+                    TestInput(
+                        modifier = Modifier.padding(innerPadding),
+                        purchaseDao = purchaseDao
+                    )
                 }
             }
         }
+
+        val db = PurchaseDatabase.getDatabase(this)
+        purchaseDao = db.purchaseDao()
     }
 }
 
 @Composable
-fun TestInput(modifier: Modifier = Modifier) {
-    var textState by remember { mutableStateOf("") } // For input text
-    val textList = remember { mutableStateListOf<String>() } // Corrected to mutableStateListOf
+fun TestInput(modifier: Modifier = Modifier, purchaseDao: PurchaseDao) {
+    var textState by remember { mutableStateOf("") }
+    val textList = remember { mutableStateListOf<String>() }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -54,29 +70,39 @@ fun TestInput(modifier: Modifier = Modifier) {
                 Log.i("USER_INPUT", "value: $newText")
             },
             label = { Text("Enter Name") },
-            singleLine = true // Ensure single-line input
+            singleLine = true
         )
 
-        Spacer(modifier = Modifier.height(16.dp)) // Add space between UI elements
+        Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
             if (textState.isNotBlank()) {
-                textList.add(textState) // Use add() for mutableStateListOf
-                textState = "" // Clear input field
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    val newPurchase = Purchase(title = textState)
+                    purchaseDao.insertPurchase(newPurchase)
+
+                    // Retrieve all entries from the database
+                    val purchases = purchaseDao.getAllPurchases()
+
+                    // Update the UI on the main thread
+                    withContext(Dispatchers.Main) {
+                        textList.clear()
+                        textList.addAll(purchases.map { it.title })
+                        textState = ""
+                    }
+                }
             }
         }) {
             Text(text = "Click me!")
-
         }
 
         LazyColumn {
             items(textList) { text ->
                 Text(text = text)
                 Spacer(modifier = Modifier.height(4.dp))
-
             }
         }
-
     }
 }
 
@@ -168,7 +194,9 @@ fun BottomNavButton(icon: ImageVector, label: String) {
 @Composable
 fun MainPagePreview() {
     ProductionProjectTheme {
-        TestInput()
+        TestInput(
+
+        )
     }
 }
 

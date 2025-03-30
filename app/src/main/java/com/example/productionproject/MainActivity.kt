@@ -19,6 +19,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.productionproject.ui.theme.ProductionProjectTheme
+import java.math.BigDecimal
+
+data class PurchaseEntry(val title: String, val price: BigDecimal)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,8 +43,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun InputPurchases(modifier: Modifier = Modifier) {
-    var textState by remember { mutableStateOf("") }
-    val purchaseList = remember { mutableStateListOf<String>() }
+    var titleState by remember { mutableStateOf("") }
+    var priceState by remember { mutableStateOf("") }
+    val purchaseList = remember { mutableStateListOf<PurchaseEntry>() }
 
     Column(
         modifier = modifier
@@ -49,24 +53,40 @@ fun InputPurchases(modifier: Modifier = Modifier) {
             .padding(16.dp)
     ) {
         TextField(
-            value = textState,
+            value = titleState,
             onValueChange = { newText ->
-                textState = newText
+                titleState = newText
                 Log.i("USER_INPUT", "value: $newText")
             },
-            label = { Text("Enter Name") },
+            label = { Text("Enter Title") },
+            singleLine = true
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(
+            value = priceState,
+            onValueChange = { newText ->
+                priceState = newText },
+            label = { Text("Enter Price") },
             singleLine = true
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-            if (textState.isNotBlank()) {
-                purchaseList.add(textState)
-                textState = ""
+            if (titleState.isNotBlank() && priceState.isNotBlank()) {
+                try {
+                    val priceDecimal = priceState.toBigDecimal()
+                    purchaseList.add(PurchaseEntry(titleState, priceDecimal))
+                    titleState = ""
+                    priceState = ""
+                } catch (e: NumberFormatException) {
+                    Log.e("INPUT_ERROR", "Invalid price input")
+                }
             }
         }) {
-            Text("Click me!")
+            Text("Add Purchase")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -77,21 +97,21 @@ fun InputPurchases(modifier: Modifier = Modifier) {
 
 @Composable
 fun LogPurchaseList(
-    purchases: List<String>,
+    purchases: List<PurchaseEntry>,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
         modifier = modifier.padding(16.dp)
     ) {
         items(purchases) { purchase ->
-            PurchaseItem(title = purchase, price = "£0.00")
+            PurchaseItem(title = purchase.title, price = purchase.price)
             Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
 
 @Composable
-fun PurchaseItem(title: String, price: String, modifier: Modifier = Modifier) {
+fun PurchaseItem(title: String, price: BigDecimal, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
@@ -107,12 +127,12 @@ fun PurchaseItem(title: String, price: String, modifier: Modifier = Modifier) {
 @Composable
 fun PurchaseInfo(
     title: String,
-    price: String,
+    price: BigDecimal,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
         Text(text = "Title: $title")
-        Text(text = "Price: $price")
+        Text(text = "Price: £${price.setScale(2)}")
     }
 }
 

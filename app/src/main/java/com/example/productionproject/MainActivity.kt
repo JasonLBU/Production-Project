@@ -32,6 +32,7 @@ class MainActivity : ComponentActivity() {
             ProductionProjectTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
+                    topBar = { AppTopBar() },
                     bottomBar = { BottomNavBar() }
                 ) { innerPadding ->
                     InputPurchases(modifier = Modifier.padding(innerPadding))
@@ -134,6 +135,18 @@ fun PurchaseInfo(
         Text(text = "Title: $title")
         Text(text = "Price: £${price.setScale(2)}")
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppTopBar() {
+    TopAppBar(
+        title = { Text("Purchase History") },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary
+        )
+    )
 }
 
 @Composable

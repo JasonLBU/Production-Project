@@ -12,4 +12,11 @@
     <string name="expense_price_3">£30.00</string>
     <string name="expense_price_4">£80.00</string>
     <string name="expense_price_5">£40.00</string>
+
+
+    <string name="add_purchase">Add Purchase</string>
+    <string name="add_income">Add Income</string>
+
+    <string name="history_screen">Budget History</string>
+    <string name="input_screen">Input Item</string>
 </resources>

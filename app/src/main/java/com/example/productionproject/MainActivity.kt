@@ -21,8 +21,6 @@ import androidx.compose.ui.unit.dp
 import com.example.productionproject.ui.theme.ProductionProjectTheme
 import java.math.BigDecimal
 
-data class PurchaseEntry(val title: String, val price: BigDecimal)
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,66 +33,13 @@ class MainActivity : ComponentActivity() {
                     topBar = { AppTopBar() },
                     bottomBar = { BottomNavBar() }
                 ) { innerPadding ->
-                    InputPurchases(modifier = Modifier.padding(innerPadding))
+                    BottomNavBar(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
     }
 }
 
-@Composable
-fun InputPurchases(modifier: Modifier = Modifier) {
-    var titleState by remember { mutableStateOf("") }
-    var priceState by remember { mutableStateOf("") }
-    val purchaseList = remember { mutableStateListOf<PurchaseEntry>() }
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        TextField(
-            value = titleState,
-            onValueChange = { newText ->
-                titleState = newText
-                Log.i("USER_INPUT", "value: $newText")
-            },
-            label = { Text("Enter Title") },
-            singleLine = true
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        TextField(
-            value = priceState,
-            onValueChange = { newText ->
-                priceState = newText },
-            label = { Text("Enter Price") },
-            singleLine = true
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(onClick = {
-            if (titleState.isNotBlank() && priceState.isNotBlank()) {
-                try {
-                    val priceDecimal = priceState.toBigDecimal()
-                    purchaseList.add(PurchaseEntry(titleState, priceDecimal))
-                    titleState = ""
-                    priceState = ""
-                } catch (e: NumberFormatException) {
-                    Log.e("INPUT_ERROR", "Invalid price input")
-                }
-            }
-        }) {
-            Text("Add Purchase")
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        LogPurchaseList(purchases = purchaseList)
-    }
-}
 
 @Composable
 fun LogPurchaseList(
@@ -139,7 +84,7 @@ fun PurchaseInfo(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppTopBar() {
+fun AppTopBar(modifier: Modifier = Modifier) {
     TopAppBar(
         title = { Text("Purchase History") },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -150,7 +95,7 @@ fun AppTopBar() {
 }
 
 @Composable
-fun BottomNavBar() {
+fun BottomNavBar(modifier: Modifier = Modifier) {
     BottomAppBar(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(0.dp)
@@ -182,13 +127,5 @@ fun BottomNavButton(icon: ImageVector, label: String) {
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(top = 4.dp)
         )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MainPagePreview() {
-    ProductionProjectTheme {
-        InputPurchases()
     }
 }

@@ -72,8 +72,6 @@ fun InputScreen() {
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-
-        LogPurchaseList(purchases = purchaseList)
     }
 }
 

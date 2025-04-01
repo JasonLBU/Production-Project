@@ -16,8 +16,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.productionproject.data.Purchase
 import com.example.productionproject.ui.theme.ProductionProjectTheme
 import java.math.BigDecimal
 
@@ -33,19 +35,52 @@ class MainActivity : ComponentActivity() {
                     topBar = { AppTopBar() },
                     bottomBar = { BottomNavBar() }
                 ) { innerPadding ->
-                    BottomNavBar(modifier = Modifier.padding(innerPadding))
+                    BudgetHistoryScreen(
+                        purchases = emptyList(),
+                        modifier = Modifier.padding(innerPadding))
                 }
             }
         }
     }
 }
 
+enum class AppScreen(val route: String) {
+    History("history"),
+    Input("input")
+}
+
 
 @Composable
-fun LogPurchaseList(
+fun BudgetHistoryScreen(
     purchases: List<PurchaseEntry>,
     modifier: Modifier = Modifier
 ) {
+
+    // Nav buttons
+    Column(modifier = modifier.padding(16.dp)) {
+
+        // Row of buttons at the top
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Button(
+                onClick = { /* TODO: Navigate to Purchase input screen */ },
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(text = stringResource(id = R.string.add_purchase))
+            }
+
+            Button(
+                onClick = { /* TODO: Navigate to Income input screen */ },
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(text = stringResource(id = R.string.add_income))
+            }
+        }
+        }
+
+    // List
     LazyColumn(
         modifier = modifier.padding(16.dp)
     ) {
@@ -86,7 +121,9 @@ fun PurchaseInfo(
 @Composable
 fun AppTopBar(modifier: Modifier = Modifier) {
     TopAppBar(
-        title = { Text("Purchase History") },
+        title = {
+            Text(text = stringResource(id = R.string.budget_history_screen))
+        },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.onPrimary

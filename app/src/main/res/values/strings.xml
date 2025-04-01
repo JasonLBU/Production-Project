@@ -3,7 +3,12 @@
 
     <string name="add_purchase">Add Purchase</string>
     <string name="add_income">Add Income</string>
+
+    <string name="enter_title">Enter Title</string>
+    <string name="enter_amount">Enter Amount</string>
+
+
     <string name="budget_history_screen">Budget History</string>
-    <string name="input_income_screen">Input Income</string>
-    <string name="input_expense_screen">Input Expense</string>
+    <string name="input_expense_screen">Add Expense</string>
+    <string name="input_income_screen">Add Income</string>
 </resources>

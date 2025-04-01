@@ -1,6 +1,7 @@
 package com.example.productionproject
 
 import android.util.Log
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,7 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.productionproject.ui.theme.ProductionProjectTheme
@@ -31,7 +32,7 @@ fun InputScreen(
     modifier: Modifier
 ) {
     var titleState by remember { mutableStateOf("") }
-    var priceState by remember { mutableStateOf("") }
+    var amountState by remember { mutableStateOf("") }
     val purchaseList = remember { mutableStateListOf<PurchaseEntry>() }
 
     Column(modifier = Modifier
@@ -43,36 +44,36 @@ fun InputScreen(
             onValueChange = { newText ->
                 titleState = newText
             },
-            label = { Text("Enter Title") },
+            label = { Text(text = stringResource(id = R.string.enter_title)) },
             singleLine = true
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         TextField(
-            value = priceState,
+            value = amountState,
             onValueChange = { newText ->
-                priceState = newText
+                amountState = newText
             },
-            label = { Text("Enter Price") },
+            label = { Text(text = stringResource(id = R.string.enter_amount)) },
             singleLine = true
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-            if (titleState.isNotBlank() && priceState.isNotBlank()) {
+            if (titleState.isNotBlank() && amountState.isNotBlank()) {
                 try {
-                    val priceDecimal = priceState.toBigDecimal()
+                    val priceDecimal = amountState.toBigDecimal()
                     purchaseList.add(PurchaseEntry(titleState, priceDecimal))
                     titleState = ""
-                    priceState = ""
+                    amountState = ""
                 } catch (e: NumberFormatException) {
                     Log.e("INPUT_ERROR", "Invalid price input")
                 }
             }
         }) {
-            Text("Add Purchase")
+            Text("Confirm")
         }
 
         Spacer(modifier = Modifier.height(16.dp))

@@ -19,13 +19,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.productionproject.ui.theme.ProductionProjectTheme
 import java.math.BigDecimal
 
 data class PurchaseEntry(val title: String, val price: BigDecimal)
 
 @Composable
-fun InputScreen() {
+fun InputScreen(
+    navController: NavController,
+    modifier: Modifier
+) {
     var titleState by remember { mutableStateOf("") }
     var priceState by remember { mutableStateOf("") }
     val purchaseList = remember { mutableStateListOf<PurchaseEntry>() }
@@ -72,15 +76,5 @@ fun InputScreen() {
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-    }
-}
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun MainPagePreview() {
-    ProductionProjectTheme {
-        InputScreen()
     }
 }

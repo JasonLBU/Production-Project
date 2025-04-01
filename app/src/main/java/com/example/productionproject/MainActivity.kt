@@ -1,13 +1,10 @@
 package com.example.productionproject
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -17,11 +14,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.productionproject.data.Purchase
+import androidx.navigation.compose.rememberNavController
 import com.example.productionproject.ui.theme.ProductionProjectTheme
-import java.math.BigDecimal
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,90 +25,20 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ProductionProjectTheme {
+                val navController = rememberNavController()
+
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     topBar = { AppTopBar() },
                     bottomBar = { BottomNavBar() }
                 ) { innerPadding ->
-                    BudgetHistoryScreen(
-                        purchases = emptyList(),
-                        modifier = Modifier.padding(innerPadding))
+                    FinanceApp(
+                        navController = navController,
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
             }
         }
-    }
-}
-
-enum class AppScreen(val route: String) {
-    History("history"),
-    Input("input")
-}
-
-
-@Composable
-fun BudgetHistoryScreen(
-    purchases: List<PurchaseEntry>,
-    modifier: Modifier = Modifier
-) {
-
-    // Nav buttons
-    Column(modifier = modifier.padding(16.dp)) {
-
-        // Row of buttons at the top
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Button(
-                onClick = { /* TODO: Navigate to Purchase input screen */ },
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(text = stringResource(id = R.string.add_purchase))
-            }
-
-            Button(
-                onClick = { /* TODO: Navigate to Income input screen */ },
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(text = stringResource(id = R.string.add_income))
-            }
-        }
-        }
-
-    // List
-    LazyColumn(
-        modifier = modifier.padding(16.dp)
-    ) {
-        items(purchases) { purchase ->
-            PurchaseItem(title = purchase.title, price = purchase.price)
-            Spacer(modifier = Modifier.height(8.dp))
-        }
-    }
-}
-
-@Composable
-fun PurchaseItem(title: String, price: BigDecimal, modifier: Modifier = Modifier) {
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-    ) {
-        Row(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            PurchaseInfo(title = title, price = price)
-        }
-    }
-}
-
-@Composable
-fun PurchaseInfo(
-    title: String,
-    price: BigDecimal,
-    modifier: Modifier = Modifier
-) {
-    Column(modifier = modifier) {
-        Text(text = "Title: $title")
-        Text(text = "Price: £${price.setScale(2)}")
     }
 }
 

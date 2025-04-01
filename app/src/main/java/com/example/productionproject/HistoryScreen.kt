@@ -10,15 +10,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import java.math.BigDecimal
 
 @Composable
 fun HistoryScreen(
     purchases: List<PurchaseEntry>,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
 
@@ -31,14 +36,18 @@ fun HistoryScreen(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Button(
-                onClick = { /* TODO: Navigate to Purchase input screen */ },
+                onClick = {
+                    navController.navigate(FinanceAppScreen.Expense.name)
+                },
                 modifier = Modifier.weight(1f)
             ) {
                 Text(text = stringResource(id = R.string.add_purchase))
             }
 
             Button(
-                onClick = { /* TODO: Navigate to Income input screen */ },
+                onClick = {
+                    navController.navigate(FinanceAppScreen.Income.name)
+                },
                 modifier = Modifier.weight(1f)
             ) {
                 Text(text = stringResource(id = R.string.add_income))

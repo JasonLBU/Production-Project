@@ -4,5 +4,6 @@
     <string name="add_purchase">Add Purchase</string>
     <string name="add_income">Add Income</string>
     <string name="budget_history_screen">Budget History</string>
-    <string name="input_screen">Input Item</string>
+    <string name="input_income_screen">Input Income</string>
+    <string name="input_expense_screen">Input Expense</string>
 </resources>

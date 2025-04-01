@@ -51,8 +51,34 @@ fun HistoryScreen(
         modifier = modifier.padding(16.dp)
     ) {
         items(purchases) { purchase ->
-            PurchaseItem(title = purchase.title, price = purchase.price)
+            FinanceItem(title = purchase.title, price = purchase.price)
             Spacer(modifier = Modifier.height(8.dp))
         }
+    }
+}
+
+@Composable
+fun FinanceItem(title: String, price: BigDecimal, modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            FinanceInfo(title = title, price = price)
+        }
+    }
+}
+
+@Composable
+fun FinanceInfo(
+    title: String,
+    price: BigDecimal,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        Text(text = "Title: $title")
+        Text(text = "Price: £${price.setScale(2)}")
     }
 }

@@ -1,5 +1,6 @@
 package com.example.productionproject
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,12 +10,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -26,11 +30,45 @@ fun HistoryScreen(
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        // Total amount displayed
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(
+                    width = 1.dp,
+                    color = Color.Gray,
+                    shape = RoundedCornerShape(8.dp)
+                ),
+            shape = RoundedCornerShape(8.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
+            )
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "Total",
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    text = "£0.00", // Placeholder for now
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+        }
 
-    // Nav buttons
-    Column(modifier = modifier.padding(16.dp)) {
+        Spacer(modifier = Modifier.height(24.dp))
 
-        // Row of buttons at the top
+        // Row of Nav Buttons
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -55,9 +93,11 @@ fun HistoryScreen(
         }
     }
 
-    // List
+    // Separate LazyColumn for the finance log
     LazyColumn(
-        modifier = modifier.padding(16.dp)
+        modifier = modifier
+            .padding(horizontal = 16.dp)
+            .padding(top = 8.dp)
     ) {
         items(purchases) { purchase ->
             FinanceItem(title = purchase.title, price = purchase.price)

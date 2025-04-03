@@ -91,17 +91,19 @@ fun HistoryScreen(
                 Text(text = stringResource(id = R.string.add_income))
             }
         }
-    }
 
-    // Separate LazyColumn for the finance log
-    LazyColumn(
-        modifier = modifier
-            .padding(horizontal = 16.dp)
-            .padding(top = 8.dp)
-    ) {
-        items(purchases) { purchase ->
-            FinanceItem(title = purchase.title, price = purchase.price)
-            Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Separate LazyColumn for the finance log
+        LazyColumn(
+            modifier = modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) {
+            items(purchases) { purchase ->
+                FinanceItem(title = purchase.title, price = purchase.price)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
         }
     }
 }

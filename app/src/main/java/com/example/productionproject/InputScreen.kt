@@ -28,17 +28,17 @@ data class PurchaseEntry(val title: String, val price: BigDecimal)
 
 @Composable
 fun InputScreen(
+    purchaseList: MutableList<PurchaseEntry>,
     navController: NavController,
-    modifier: Modifier
 ) {
     var titleState by remember { mutableStateOf("") }
     var amountState by remember { mutableStateOf("") }
-    val purchaseList = remember { mutableStateListOf<PurchaseEntry>() }
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)) {
-
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
         TextField(
             value = titleState,
             onValueChange = { newText ->
@@ -68,6 +68,7 @@ fun InputScreen(
                     purchaseList.add(PurchaseEntry(titleState, priceDecimal))
                     titleState = ""
                     amountState = ""
+                    navController.popBackStack() // Return to history screen
                 } catch (e: NumberFormatException) {
                     Log.e("INPUT_ERROR", "Invalid price input")
                 }

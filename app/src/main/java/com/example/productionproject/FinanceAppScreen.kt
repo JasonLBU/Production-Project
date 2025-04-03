@@ -10,6 +10,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHost
@@ -31,6 +33,7 @@ fun FinanceApp(
     navController: NavHostController = rememberNavController(),
     modifier: Modifier = Modifier
 ) {
+    val purchaseList = remember { mutableStateListOf<PurchaseEntry>() }
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = FinanceAppScreen.valueOf(
         backStackEntry?.destination?.route ?: FinanceAppScreen.History.name
@@ -48,21 +51,20 @@ fun FinanceApp(
                 HistoryScreen(
                     purchases = emptyList(), // will update with real data later
                     navController = navController,
-                    modifier = modifier
                 )
             }
 
             composable(route = FinanceAppScreen.Expense.name) {
                 InputScreen(
+                    purchaseList = purchaseList,
                     navController = navController,
-                    modifier = modifier
                 )
             }
 
             composable(route = FinanceAppScreen.Income.name) {
                 InputScreen(
+                    purchaseList = purchaseList,
                     navController = navController,
-                    modifier = modifier
                 )
             }
         }

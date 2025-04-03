@@ -65,7 +65,7 @@ fun InputScreen(
             if (titleState.isNotBlank() && amountState.isNotBlank()) {
                 try {
                     val priceDecimal = amountState.toBigDecimal()
-                    purchaseList.add(PurchaseEntry(titleState, priceDecimal))
+                    purchaseList.add(0, PurchaseEntry(titleState, priceDecimal))
                     titleState = ""
                     amountState = ""
                     navController.popBackStack() // Return to history screen

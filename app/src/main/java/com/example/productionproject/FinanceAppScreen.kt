@@ -49,7 +49,7 @@ fun FinanceApp(
         ) {
             composable(route = FinanceAppScreen.History.name) {
                 HistoryScreen(
-                    purchases = emptyList(), // will update with real data later
+                    purchases = purchaseList, // will update with real data later
                     navController = navController,
                 )
             }

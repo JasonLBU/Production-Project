@@ -14,6 +14,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -28,12 +30,13 @@ enum class FinanceAppScreen(@StringRes val title: Int) {
     Expense(R.string.input_expense_screen)
 }
 
+
 @Composable
 fun FinanceApp(
     navController: NavHostController = rememberNavController(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: FinanceViewModel = viewModel()
 ) {
-    val purchaseList = remember { mutableStateListOf<PurchaseEntry>() }
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = FinanceAppScreen.valueOf(
         backStackEntry?.destination?.route ?: FinanceAppScreen.History.name
@@ -49,22 +52,26 @@ fun FinanceApp(
         ) {
             composable(route = FinanceAppScreen.History.name) {
                 HistoryScreen(
-                    purchases = purchaseList, // will update with real data later
                     navController = navController,
+                    purchases = viewModel.purchaseList,
                 )
             }
 
             composable(route = FinanceAppScreen.Expense.name) {
                 InputScreen(
-                    purchaseList = purchaseList,
                     navController = navController,
+                    onSubmit = { title, amount ->
+                        viewModel.addPurchase(title, amount)
+                    }
                 )
             }
 
             composable(route = FinanceAppScreen.Income.name) {
                 InputScreen(
-                    purchaseList = purchaseList,
                     navController = navController,
+                    onSubmit = { title, amount ->
+                        viewModel.addPurchase(title, amount)
+                    }
                 )
             }
         }

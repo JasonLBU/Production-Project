@@ -28,8 +28,8 @@ data class PurchaseEntry(val title: String, val price: BigDecimal)
 
 @Composable
 fun InputScreen(
-    purchaseList: MutableList<PurchaseEntry>,
     navController: NavController,
+    onSubmit: (String, BigDecimal) -> Unit
 ) {
     var titleState by remember { mutableStateOf("") }
     var amountState by remember { mutableStateOf("") }
@@ -65,7 +65,7 @@ fun InputScreen(
             if (titleState.isNotBlank() && amountState.isNotBlank()) {
                 try {
                     val priceDecimal = amountState.toBigDecimal()
-                    purchaseList.add(0, PurchaseEntry(titleState, priceDecimal))
+                    onSubmit(titleState, priceDecimal)
                     titleState = ""
                     amountState = ""
                     navController.popBackStack() // Return to history screen

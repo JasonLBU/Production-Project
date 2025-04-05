@@ -22,7 +22,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import java.math.BigDecimal
 
 @Composable
 fun HistoryScreen(
@@ -101,7 +100,7 @@ fun HistoryScreen(
                 .weight(1f)
         ) {
             items(purchases) { purchase ->
-                FinanceItem(title = purchase.title, price = purchase.price)
+                FinanceItem(entry = purchase)
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }
@@ -109,27 +108,32 @@ fun HistoryScreen(
 }
 
 @Composable
-fun FinanceItem(title: String, price: BigDecimal, modifier: Modifier = Modifier) {
+fun FinanceItem(entry: PurchaseEntry, modifier: Modifier = Modifier) {
+    val cardColor = when (entry.type) {
+        TransactionType.Income -> Color(0xFFD0F0C0) // Income: light green
+        TransactionType.Expense -> Color(0xFFFFC1C1) // Expense: light red
+    }
+
     Card(
         modifier = modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = cardColor),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(
             modifier = Modifier.padding(16.dp)
         ) {
-            FinanceInfo(title = title, price = price)
+            FinanceInfo(entry = entry)
         }
     }
 }
 
 @Composable
 fun FinanceInfo(
-    title: String,
-    price: BigDecimal,
+    entry: PurchaseEntry,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        Text(text = "Title: $title")
-        Text(text = "Price: £${price.setScale(2)}")
+        Text(text = "Title: ${entry.title}")
+        Text(text = "Price: £${entry.price.setScale(2)}")
     }
 }

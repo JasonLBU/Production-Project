@@ -22,6 +22,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.productionproject.components.ExpenseCardColor
+import com.example.productionproject.components.ExpenseLabelColor
+import com.example.productionproject.components.IncomeCardColor
+import com.example.productionproject.components.IncomeLabelColor
+import com.example.productionproject.components.PriceLabel
+import com.example.productionproject.components.TitleLabel
 
 @Composable
 fun HistoryScreen(
@@ -108,10 +114,18 @@ fun HistoryScreen(
 }
 
 @Composable
-fun FinanceItem(entry: PurchaseEntry, modifier: Modifier = Modifier) {
+fun FinanceItem(
+    entry: PurchaseEntry,
+    modifier: Modifier = Modifier
+) {
     val cardColor = when (entry.type) {
-        TransactionType.Income -> Color(0xFFD0F0C0) // Income: light green
-        TransactionType.Expense -> Color(0xFFFFC1C1) // Expense: light red
+        TransactionType.Income -> IncomeCardColor
+        TransactionType.Expense -> ExpenseCardColor
+    }
+
+    val labelColor = when (entry.type) {
+        TransactionType.Income -> IncomeLabelColor
+        TransactionType.Expense -> ExpenseLabelColor
     }
 
     Card(
@@ -122,7 +136,7 @@ fun FinanceItem(entry: PurchaseEntry, modifier: Modifier = Modifier) {
         Row(
             modifier = Modifier.padding(16.dp)
         ) {
-            FinanceInfo(entry = entry)
+            FinanceInfo(entry = entry, labelColor = labelColor)
         }
     }
 }
@@ -130,10 +144,25 @@ fun FinanceItem(entry: PurchaseEntry, modifier: Modifier = Modifier) {
 @Composable
 fun FinanceInfo(
     entry: PurchaseEntry,
+    labelColor: Color,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
-        Text(text = "Title: ${entry.title}")
-        Text(text = "Price: £${entry.price.setScale(2)}")
+    val sign = when (entry.type) {
+        TransactionType.Income -> "+"
+        TransactionType.Expense -> "-"
+    }
+
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = "Title: ${entry.title}",
+            style = TitleLabel.copy(color = labelColor)
+        )
+        Text(
+            text = "$sign £${entry.price.setScale(2)}",
+            style = PriceLabel.copy(color = labelColor)
+        )
     }
 }

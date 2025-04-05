@@ -24,12 +24,24 @@ import androidx.navigation.NavController
 import com.example.productionproject.ui.theme.ProductionProjectTheme
 import java.math.BigDecimal
 
-data class PurchaseEntry(val title: String, val price: BigDecimal)
+// object item that contains a title and amount
+data class PurchaseEntry(
+    val title: String,
+    val price: BigDecimal,
+    val type: TransactionType
+)
+
+// Type of item entry
+enum class TransactionType {
+    Income,
+    Expense
+}
 
 @Composable
 fun InputScreen(
     navController: NavController,
-    onSubmit: (String, BigDecimal) -> Unit
+    transactionType: TransactionType,
+    onSubmit: (String, BigDecimal, TransactionType) -> Unit
 ) {
     var titleState by remember { mutableStateOf("") }
     var amountState by remember { mutableStateOf("") }
@@ -65,7 +77,7 @@ fun InputScreen(
             if (titleState.isNotBlank() && amountState.isNotBlank()) {
                 try {
                     val priceDecimal = amountState.toBigDecimal()
-                    onSubmit(titleState, priceDecimal)
+                    onSubmit(titleState, priceDecimal, transactionType)
                     titleState = ""
                     amountState = ""
                     navController.popBackStack() // Return to history screen

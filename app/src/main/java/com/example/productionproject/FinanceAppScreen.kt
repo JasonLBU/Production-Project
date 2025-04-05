@@ -60,8 +60,9 @@ fun FinanceApp(
             composable(route = FinanceAppScreen.Expense.name) {
                 InputScreen(
                     navController = navController,
-                    onSubmit = { title, amount ->
-                        viewModel.addPurchase(title, amount)
+                    transactionType = TransactionType.Expense,
+                    onSubmit = { title, amount, type->
+                        viewModel.addPurchase(title, amount, type)
                     }
                 )
             }
@@ -69,8 +70,9 @@ fun FinanceApp(
             composable(route = FinanceAppScreen.Income.name) {
                 InputScreen(
                     navController = navController,
-                    onSubmit = { title, amount ->
-                        viewModel.addPurchase(title, amount)
+                    transactionType = TransactionType.Income,
+                    onSubmit = { title, amount, type->
+                        viewModel.addPurchase(title, amount, type)
                     }
                 )
             }

@@ -35,17 +35,19 @@ import com.example.productionproject.components.IncomeCardColor
 import com.example.productionproject.components.IncomeLabelColor
 import com.example.productionproject.components.PriceLabel
 import com.example.productionproject.components.TitleLabel
+import com.example.productionproject.data.Purchase
+import com.example.productionproject.data.TransactionType
 import kotlinx.coroutines.selects.select
 import java.math.BigDecimal
 
 @Composable
 fun HistoryScreen(
-    purchases: List<PurchaseEntry>,
+    purchases: List<Purchase>,
     navController: NavController,
     totalBalance: BigDecimal,
     modifier: Modifier = Modifier
 ) {
-    var selectedEntry by remember { mutableStateOf<PurchaseEntry?>(null) }
+    var selectedEntry by remember { mutableStateOf<Purchase?>(null) }
 
     Column(
         modifier = modifier
@@ -141,9 +143,9 @@ fun HistoryScreen(
 
 @Composable
 fun FinanceItem(
-    entry: PurchaseEntry,
+    entry: Purchase,
     modifier: Modifier = Modifier,
-    onClick: (PurchaseEntry) -> Unit
+    onClick: (Purchase) -> Unit
 ) {
     val cardColor = when (entry.type) {
         TransactionType.Income -> IncomeCardColor
@@ -172,7 +174,7 @@ fun FinanceItem(
 
 @Composable
 fun FinanceItemDialog(
-    entry: PurchaseEntry,
+    entry: Purchase,
     onDismiss: () -> Unit
 ) {
     Dialog(onDismissRequest = onDismiss) {
@@ -201,7 +203,7 @@ fun FinanceItemDialog(
 
 @Composable
 fun FinanceInfo(
-    entry: PurchaseEntry,
+    entry: Purchase,
     labelColor: Color,
     modifier: Modifier = Modifier
 ) {
@@ -224,9 +226,3 @@ fun FinanceInfo(
         )
     }
 }
-
-fun getTransactionSign(type: TransactionType): String = when (type) {
-    TransactionType.Income -> "+"
-    TransactionType.Expense -> "-"
-}
-

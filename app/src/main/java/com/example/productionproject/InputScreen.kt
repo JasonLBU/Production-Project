@@ -21,21 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.productionproject.data.TransactionType
 import com.example.productionproject.ui.theme.ProductionProjectTheme
 import java.math.BigDecimal
-
-// object item that contains a title and amount
-data class PurchaseEntry(
-    val title: String,
-    val price: BigDecimal,
-    val type: TransactionType
-)
-
-// Type of item entry
-enum class TransactionType {
-    Income,
-    Expense
-}
 
 @Composable
 fun InputScreen(

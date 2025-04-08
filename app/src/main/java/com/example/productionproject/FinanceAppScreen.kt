@@ -9,10 +9,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -22,7 +24,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-
+import com.example.productionproject.data.PurchaseDatabase
+import com.example.productionproject.data.TransactionType
 
 enum class FinanceAppScreen(@StringRes val title: Int) {
     History(R.string.budget_history_screen),
@@ -30,17 +33,20 @@ enum class FinanceAppScreen(@StringRes val title: Int) {
     Expense(R.string.input_expense_screen)
 }
 
-
 @Composable
 fun FinanceApp(
     navController: NavHostController = rememberNavController(),
     modifier: Modifier = Modifier,
-    viewModel: FinanceViewModel = viewModel()
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = FinanceAppScreen.valueOf(
         backStackEntry?.destination?.route ?: FinanceAppScreen.History.name
     )
+
+    val context = LocalContext.current
+    val db = PurchaseDatabase.getDatabase(context)
+    val viewModel: FinanceViewModel = viewModel(factory = FinanceViewModelFactory(db.purchaseDao()))
+    val purchases by viewModel.purchaseList.collectAsState()
 
     Scaffold(
         topBar = { FinanceAppBar(currentScreen = currentScreen) },
@@ -53,7 +59,7 @@ fun FinanceApp(
             composable(route = FinanceAppScreen.History.name) {
                 HistoryScreen(
                     navController = navController,
-                    purchases = viewModel.purchaseList,
+                    purchases = purchases,
                     totalBalance = viewModel.totalBalance
                 )
             }

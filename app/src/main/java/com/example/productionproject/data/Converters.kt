@@ -1,8 +1,11 @@
 package com.example.productionproject.data
 
 import androidx.room.TypeConverter
-import com.example.productionproject.TransactionType
 import java.math.BigDecimal
+
+enum class TransactionType {
+    Income, Expense
+}
 
 class Converters {
     @TypeConverter

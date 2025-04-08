@@ -36,15 +36,15 @@ import com.example.productionproject.components.IncomeLabelColor
 import com.example.productionproject.components.PriceLabel
 import com.example.productionproject.components.TitleLabel
 import com.example.productionproject.data.Purchase
-import com.example.productionproject.data.TransactionType
 import kotlinx.coroutines.selects.select
 import java.math.BigDecimal
+import kotlin.math.abs
 
 @Composable
 fun HistoryScreen(
     purchases: List<Purchase>,
     navController: NavController,
-    totalBalance: BigDecimal,
+    totalBalance: Double,
     modifier: Modifier = Modifier
 ) {
     var selectedEntry by remember { mutableStateOf<Purchase?>(null) }
@@ -79,9 +79,9 @@ fun HistoryScreen(
                     style = MaterialTheme.typography.titleMedium
                 )
 
-                val sign = if (totalBalance < BigDecimal.ZERO) "-" else ""
+                val sign = if (totalBalance < 0) "-" else ""
                 Text(
-                    text = "$sign £${totalBalance.abs().setScale(2)}",
+                    text = "$sign £${"%.2f".format(abs(totalBalance))}",
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -148,13 +148,15 @@ fun FinanceItem(
     onClick: (Purchase) -> Unit
 ) {
     val cardColor = when (entry.type) {
-        TransactionType.Income -> IncomeCardColor
-        TransactionType.Expense -> ExpenseCardColor
+        "Income" -> IncomeCardColor
+        "Expense" -> ExpenseCardColor
+        else -> MaterialTheme.colorScheme.surface
     }
 
     val labelColor = when (entry.type) {
-        TransactionType.Income -> IncomeLabelColor
-        TransactionType.Expense -> ExpenseLabelColor
+        "Income" -> IncomeLabelColor
+        "Expense" -> ExpenseLabelColor
+        else -> MaterialTheme.colorScheme.onSurface
     }
 
     Card(
@@ -188,8 +190,8 @@ fun FinanceItemDialog(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text("Title: ${entry.title}")
-                Text("Amount: £${entry.price.setScale(2)}")
-                Text("Type: ${entry.type.name}")
+                Text("Amount: £${"%.2f".format(entry.price)}")
+                Text("Type: ${entry.type}")
 
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -208,8 +210,9 @@ fun FinanceInfo(
     modifier: Modifier = Modifier
 ) {
     val sign = when (entry.type) {
-        TransactionType.Income -> "+"
-        TransactionType.Expense -> "-"
+        "Income" -> "+"
+        "Expense" -> "-"
+        else -> ""
     }
 
     Row(
@@ -221,7 +224,7 @@ fun FinanceInfo(
             style = TitleLabel.copy(color = labelColor)
         )
         Text(
-            text = "$sign £${entry.price.setScale(2)}",
+            text = "$sign £${"%.2f".format(entry.price)}",
             style = PriceLabel.copy(color = labelColor)
         )
     }

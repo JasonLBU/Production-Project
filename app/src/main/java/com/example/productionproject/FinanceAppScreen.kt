@@ -25,7 +25,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.productionproject.data.PurchaseDatabase
-import com.example.productionproject.data.TransactionType
 
 enum class FinanceAppScreen(@StringRes val title: Int) {
     History(R.string.budget_history_screen),
@@ -37,16 +36,13 @@ enum class FinanceAppScreen(@StringRes val title: Int) {
 fun FinanceApp(
     navController: NavHostController = rememberNavController(),
     modifier: Modifier = Modifier,
+    viewModel: FinanceViewModel
 ) {
+    val purchases by viewModel.purchaseList.collectAsState()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = FinanceAppScreen.valueOf(
         backStackEntry?.destination?.route ?: FinanceAppScreen.History.name
     )
-
-    val context = LocalContext.current
-    val db = PurchaseDatabase.getDatabase(context)
-    val viewModel: FinanceViewModel = viewModel(factory = FinanceViewModelFactory(db.purchaseDao()))
-    val purchases by viewModel.purchaseList.collectAsState()
 
     Scaffold(
         topBar = { FinanceAppBar(currentScreen = currentScreen) },
@@ -67,7 +63,7 @@ fun FinanceApp(
             composable(route = FinanceAppScreen.Expense.name) {
                 InputScreen(
                     navController = navController,
-                    transactionType = TransactionType.Expense,
+                    transactionType = "Expense",
                     onSubmit = { title, amount, type->
                         viewModel.addPurchase(title, amount, type)
                     }
@@ -77,7 +73,7 @@ fun FinanceApp(
             composable(route = FinanceAppScreen.Income.name) {
                 InputScreen(
                     navController = navController,
-                    transactionType = TransactionType.Income,
+                    transactionType = "Expense",
                     onSubmit = { title, amount, type->
                         viewModel.addPurchase(title, amount, type)
                     }

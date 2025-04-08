@@ -21,15 +21,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.productionproject.data.TransactionType
 import com.example.productionproject.ui.theme.ProductionProjectTheme
 import java.math.BigDecimal
 
 @Composable
 fun InputScreen(
     navController: NavController,
-    transactionType: TransactionType,
-    onSubmit: (String, BigDecimal, TransactionType) -> Unit
+    transactionType: String,
+    onSubmit: (String, Double, String) -> Unit
 ) {
     var titleState by remember { mutableStateOf("") }
     var amountState by remember { mutableStateOf("") }
@@ -64,10 +63,12 @@ fun InputScreen(
         Button(onClick = {
             if (titleState.isNotBlank() && amountState.isNotBlank()) {
                 try {
-                    val priceDecimal = amountState.toBigDecimal()
-                    onSubmit(titleState, priceDecimal, transactionType)
+                    val price = amountState.toDouble()
+                    onSubmit(titleState, price, transactionType)
+
                     titleState = ""
                     amountState = ""
+
                     navController.popBackStack() // Return to history screen
                 } catch (e: NumberFormatException) {
                     Log.e("INPUT_ERROR", "Invalid price input")

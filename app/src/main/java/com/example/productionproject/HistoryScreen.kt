@@ -36,11 +36,13 @@ import com.example.productionproject.components.IncomeLabelColor
 import com.example.productionproject.components.PriceLabel
 import com.example.productionproject.components.TitleLabel
 import kotlinx.coroutines.selects.select
+import java.math.BigDecimal
 
 @Composable
 fun HistoryScreen(
     purchases: List<PurchaseEntry>,
     navController: NavController,
+    totalBalance: BigDecimal,
     modifier: Modifier = Modifier
 ) {
     var selectedEntry by remember { mutableStateOf<PurchaseEntry?>(null) }
@@ -74,8 +76,10 @@ fun HistoryScreen(
                     text = "Total",
                     style = MaterialTheme.typography.titleMedium
                 )
+
+                val sign = if (totalBalance < BigDecimal.ZERO) "-" else ""
                 Text(
-                    text = "£0.00", // Placeholder for now
+                    text = "$sign £${totalBalance.abs().setScale(2)}",
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -219,5 +223,10 @@ fun FinanceInfo(
             style = PriceLabel.copy(color = labelColor)
         )
     }
+}
+
+fun getTransactionSign(type: TransactionType): String = when (type) {
+    TransactionType.Income -> "+"
+    TransactionType.Expense -> "-"
 }
 

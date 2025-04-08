@@ -54,6 +54,7 @@ fun FinanceApp(
                 HistoryScreen(
                     navController = navController,
                     purchases = viewModel.purchaseList,
+                    totalBalance = viewModel.totalBalance
                 )
             }
 

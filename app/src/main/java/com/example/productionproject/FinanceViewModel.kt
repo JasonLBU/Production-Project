@@ -17,12 +17,9 @@ class FinanceViewModel(private val dao: PurchaseDao) : ViewModel() {
     val purchaseList: StateFlow<List<Purchase>> = _purchaseList.asStateFlow()
 
     val totalBalance: Double
-        get() = _purchaseList.value.fold(0.0) { acc, purchase ->
-            when (purchase.type) {
-                "Income" -> acc + purchase.price
-                "Expense" -> acc - purchase.price
-                else -> acc
-            }
+        get() = _purchaseList.value.sumOf { purchase ->
+            if (purchase.type == "Income") purchase.price
+            else -purchase.price
         }
 
     init {

@@ -5,21 +5,13 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PurchaseDao {
     @Insert
     suspend fun insertPurchase(purchase: Purchase)
 
-    @Update
-    suspend fun updatePurchase(purchase: Purchase)
-
-    @Delete
-    suspend fun deletePurchase(purchase: Purchase)
-
     @Query("SELECT * FROM purchases")
-    suspend fun getAllPurchases(): List<Purchase>
-
-    @Query("SELECT * FROM purchases WHERE id = :id")
-    suspend fun getPurchaseById(id: Int): Purchase
+    fun getAllPurchases(): Flow<List<Purchase>>
 }

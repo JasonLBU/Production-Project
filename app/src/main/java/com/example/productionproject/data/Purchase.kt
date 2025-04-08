@@ -2,7 +2,6 @@ package com.example.productionproject.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.productionproject.TransactionType
 import java.math.BigDecimal
 
 @Entity(tableName = "purchases")

@@ -9,17 +9,17 @@ import androidx.room.Update
 @Dao
 interface PurchaseDao {
     @Insert
-    fun insertPurchase(purchase: Purchase)
+    suspend fun insertPurchase(purchase: Purchase)
 
     @Update
-    fun updatePurchase(purchase: Purchase)
+    suspend fun updatePurchase(purchase: Purchase)
 
     @Delete
-    fun deletePurchase(purchase: Purchase)
+    suspend fun deletePurchase(purchase: Purchase)
 
     @Query("SELECT * FROM purchases")
-    fun getAllPurchases(): List<Purchase>
+    suspend fun getAllPurchases(): List<Purchase>
 
     @Query("SELECT * FROM purchases WHERE id = :id")
-    fun getPurchaseById(id: Int): Purchase
+    suspend fun getPurchaseById(id: Int): Purchase
 }

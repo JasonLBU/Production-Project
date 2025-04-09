@@ -56,7 +56,8 @@ fun FinanceApp(
                 HistoryScreen(
                     navController = navController,
                     purchases = purchases,
-                    totalBalance = viewModel.totalBalance
+                    totalBalance = viewModel.totalBalance,
+                    viewModel = viewModel
                 )
             }
 
@@ -73,7 +74,7 @@ fun FinanceApp(
             composable(route = FinanceAppScreen.Income.name) {
                 InputScreen(
                     navController = navController,
-                    transactionType = "Expense",
+                    transactionType = "Income",
                     onSubmit = { title, amount, type->
                         viewModel.addPurchase(title, amount, type)
                     }

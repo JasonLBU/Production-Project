@@ -18,10 +18,12 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,6 +47,7 @@ fun HistoryScreen(
     purchases: List<Purchase>,
     navController: NavController,
     totalBalance: Double,
+    viewModel: FinanceViewModel,
     modifier: Modifier = Modifier
 ) {
     var selectedEntry by remember { mutableStateOf<Purchase?>(null) }
@@ -136,7 +139,8 @@ fun HistoryScreen(
     selectedEntry?.let { entry ->
         FinanceItemDialog(
             entry = entry,
-            onDismiss = { selectedEntry = null}
+            onDismiss = { selectedEntry = null},
+            onUpdate = { viewModel.updatePurchase(it)}
         )
     }
 }
@@ -177,26 +181,57 @@ fun FinanceItem(
 @Composable
 fun FinanceItemDialog(
     entry: Purchase,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onUpdate: (Purchase) -> Unit
 ) {
+    var updatedTitle by remember { mutableStateOf(entry.title) }
+    var updatedPrice by remember { mutableStateOf(entry.price.toString()) }
+
     Dialog(onDismissRequest = onDismiss) {
         Card(
             modifier = Modifier.padding(16.dp),
             shape = RoundedCornerShape(12.dp)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-                Text("Transaction Details", style = MaterialTheme.typography.titleLarge)
+                Text("Edit Transaction", style = MaterialTheme.typography.titleLarge)
+                Spacer(modifier = Modifier.height(12.dp))
+
+                TextField(
+                    value = updatedTitle,
+                    onValueChange = { updatedTitle = it },
+                    label = { Text("Title") },
+                    singleLine = true
+                )
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                Text("Title: ${entry.title}")
-                Text("Amount: £${"%.2f".format(entry.price)}")
-                Text("Type: ${entry.type}")
+                TextField(
+                    value = updatedPrice,
+                    onValueChange = { updatedPrice = it },
+                    label = { Text("Amount") },
+                    singleLine = true
+                )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Button(onClick = onDismiss) {
-                    Text("Close")
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Button(onClick = {
+                        val newPrice = updatedPrice.toDoubleOrNull()
+                        if (updatedTitle.isNotBlank() && newPrice != null) {
+                            val updatedPurchase = entry.copy(
+                                title = updatedTitle,
+                                price = newPrice
+                            )
+                            onUpdate(updatedPurchase)
+                            onDismiss()
+                        }
+                    }) {
+                        Text("Save")
+                    }
+
+                    Button(onClick = onDismiss) {
+                        Text("Cancel")
+                    }
                 }
             }
         }

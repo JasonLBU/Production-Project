@@ -8,7 +8,7 @@ import java.math.BigDecimal
 @Entity(tableName = "purchases")
 data class Purchase(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    @ColumnInfo(name = "description") val title: String,
-    @ColumnInfo(name = "amount") val price: Double,
+    @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "price") val price: Double,
     @ColumnInfo(name = "type")val type: String
 )

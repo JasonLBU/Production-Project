@@ -36,4 +36,10 @@ class FinanceViewModel(private val dao: PurchaseDao) : ViewModel() {
             dao.insertPurchase(purchase)
         }
     }
+
+    fun updatePurchase(purchase: Purchase) {
+        viewModelScope.launch {
+            dao.updatePurchase(purchase)
+        }
+    }
 }

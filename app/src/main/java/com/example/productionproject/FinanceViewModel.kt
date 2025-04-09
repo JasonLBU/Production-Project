@@ -42,4 +42,10 @@ class FinanceViewModel(private val dao: PurchaseDao) : ViewModel() {
             dao.updatePurchase(purchase)
         }
     }
+
+    fun deletePurchase(purchase: Purchase) {
+        viewModelScope.launch {
+            dao.deletePurchase(purchase)
+        }
+    }
 }

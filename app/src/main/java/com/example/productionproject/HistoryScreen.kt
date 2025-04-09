@@ -140,7 +140,8 @@ fun HistoryScreen(
         FinanceItemDialog(
             entry = entry,
             onDismiss = { selectedEntry = null},
-            onUpdate = { viewModel.updatePurchase(it)}
+            onUpdate = { viewModel.updatePurchase(it)},
+            onDelete = { viewModel.deletePurchase(it) }
         )
     }
 }
@@ -182,7 +183,8 @@ fun FinanceItem(
 fun FinanceItemDialog(
     entry: Purchase,
     onDismiss: () -> Unit,
-    onUpdate: (Purchase) -> Unit
+    onUpdate: (Purchase) -> Unit,
+    onDelete: (Purchase) -> Unit
 ) {
     var updatedTitle by remember { mutableStateOf(entry.title) }
     var updatedPrice by remember { mutableStateOf(entry.price.toString()) }
@@ -227,6 +229,13 @@ fun FinanceItemDialog(
                         }
                     }) {
                         Text("Save")
+                    }
+
+                    Button(onClick = {
+                        onDelete(entry)
+                        onDismiss()
+                    }) {
+                        Text("Delete")
                     }
 
                     Button(onClick = onDismiss) {

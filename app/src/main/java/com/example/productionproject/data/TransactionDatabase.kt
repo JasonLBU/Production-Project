@@ -5,6 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
+/**
+ * The Room database for the finance tracker app.
+ *
+ * Contains a single table [Transaction] and serves as the main access point
+ * to the app's persisted data via [TransactionDao].
+ *
+ * Use [TransactionDatabase.getDatabase] to obtain an instance of this database.
+ */
 @Database(entities = [Transaction::class], version = 1)
 abstract class TransactionDatabase: RoomDatabase() {
     abstract fun transactionDao(): TransactionDao
@@ -18,7 +26,7 @@ abstract class TransactionDatabase: RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     TransactionDatabase::class.java,
-                    "Log-purchases"
+                    "Log-transactions"
                 ).build()
                 INSTANCE = instance
                 instance

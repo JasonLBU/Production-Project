@@ -41,6 +41,15 @@ import java.util.Date
 import java.util.Locale
 import kotlin.math.abs
 
+/**
+ * Displays the history screen which shows the total balance and a list of transactions.
+ *
+ * @param navController The [NavController] for navigation.
+ * @param transactions The list of transactions to display.
+ * @param totalBalance The total balance from the difference of all listed expenses and income.
+ * @param viewModel The [FinanceViewModel] that handles transaction operations.
+ * @param modifier The [Modifier] to be applied to the screen
+ */
 @Composable
 fun HistoryScreen(
     navController: NavController,
@@ -49,6 +58,7 @@ fun HistoryScreen(
     viewModel: FinanceViewModel,
     modifier: Modifier = Modifier
 ) {
+    // Tracks which card is picked to bring up a dialog
     var selectedEntry by remember { mutableStateOf<Transaction?>(null) }
 
     Column(
@@ -144,7 +154,13 @@ fun HistoryScreen(
         )
     }
 }
-
+/**
+ * A single transaction item card UI component.
+ *
+ * @param entry The [Transaction] to display.
+ * @param modifier The [Modifier] for styling.
+ * @param onClick Callback when the card is clicked.
+ */
 @Composable
 fun FinanceItem(
     entry: Transaction,
@@ -178,6 +194,14 @@ fun FinanceItem(
     }
 }
 
+/**
+ * Dialog popup for editing or deleting a selected transaction.
+ *
+ * @param entry The [Transaction] being edited.
+ * @param onDismiss Callback when the dialog is dismissed.
+ * @param onUpdate Callback to trigger when updating a transaction.
+ * @param onDelete Callback to trigger when deleting a transaction.
+ */
 @Composable
 fun FinanceItemDialog(
     entry: Transaction,
@@ -215,6 +239,7 @@ fun FinanceItemDialog(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // Row consisting of Save, Delete and Cancel buttons
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Button(onClick = {
                         val newPrice = updatedPrice.toDoubleOrNull()
@@ -246,6 +271,13 @@ fun FinanceItemDialog(
     }
 }
 
+/**
+ * Displays the transaction details, including title, date, and price.
+ *
+ * @param entry The [Transaction] entry details that are displayed.
+ * @param labelColor Dynamic text color for "Income" or "Expense" label.
+ * @param modifier The [Modifier] for additional styling.
+ */
 @Composable
 fun FinanceInfo(
     entry: Transaction,

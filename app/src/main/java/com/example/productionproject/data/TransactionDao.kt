@@ -7,6 +7,9 @@ import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
+/**
+ *  Data Access Object (DAO) for performing CRUD operations on the transactions table.
+ */
 @Dao
 interface TransactionDao {
     @Insert

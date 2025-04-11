@@ -19,12 +19,22 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
+/**
+ * Class to define the available routes of the app
+ */
 enum class FinanceAppScreen(@StringRes val title: Int) {
     History(R.string.budget_history_screen),
     Income(R.string.input_income_screen),
     Expense(R.string.input_expense_screen)
 }
 
+/**
+ * Composable function to set up the main finance app navigation and layout
+ *
+ * @param navController NavHostController used for navigation
+ * @param modifier Modifier applied to the layout
+ * @param viewModel FinanceViewModel used for data management
+ */
 @Composable
 fun FinanceApp(
     navController: NavHostController = rememberNavController(),
@@ -33,6 +43,7 @@ fun FinanceApp(
 ) {
     val transactions by viewModel.transactionList.collectAsState()
     val backStackEntry by navController.currentBackStackEntryAsState()
+    // Determine the current screen based on the current nav route; if no route, default to History.
     val currentScreen = FinanceAppScreen.valueOf(
         backStackEntry?.destination?.route ?: FinanceAppScreen.History.name
     )
@@ -77,6 +88,12 @@ fun FinanceApp(
     }
 }
 
+/**
+ * Function to set up the top bar UI
+ *
+ * @param currentScreen Adjusts the title based on the current screen
+ * @param modifier Modifier applied to the top bar
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FinanceAppBar(

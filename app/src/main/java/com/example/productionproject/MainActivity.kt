@@ -8,6 +8,13 @@ import androidx.activity.viewModels
 import com.example.productionproject.data.TransactionDatabase
 import com.example.productionproject.ui.theme.ProductionProjectTheme
 
+
+/**
+ * The main entry point for the Production Project app.
+ *
+ * It initializes the [TransactionDatabase] and retrieves the DAO to create an
+ * instance of [FinanceViewModel] via [FinanceViewModelFactory].
+ */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

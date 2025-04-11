@@ -9,6 +9,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel class responsible for handling transaction data.
+ *
+ * This ViewModel interacts with the [TransactionDao] to observe
+ * and modify the list of transactions, and it updates the total balance.
+ */
 class FinanceViewModel(private val dao: TransactionDao) : ViewModel() {
 
     private val _transactionList = MutableStateFlow<List<Transaction>>(emptyList())
@@ -28,6 +34,13 @@ class FinanceViewModel(private val dao: TransactionDao) : ViewModel() {
         }
     }
 
+    /**
+     * Adds a new transaction.
+     *
+     * @param title The title of the transaction.
+     * @param amount The monetary amount.
+     * @param type The type of transaction ("Income" or "Expense").
+     */
     fun addTransaction(title: String, amount: Double, type: String) {
         viewModelScope.launch {
             val transaction = Transaction(title = title, price = amount, type = type)
@@ -35,12 +48,22 @@ class FinanceViewModel(private val dao: TransactionDao) : ViewModel() {
         }
     }
 
+    /**
+     * Updates an existing transaction.
+     *
+     * @param transaction The transaction object with updated fields.
+     */
     fun updateTransaction(transaction: Transaction) {
         viewModelScope.launch {
             dao.updateTransaction(transaction)
         }
     }
 
+    /**
+     * Deletes a transaction.
+     *
+     * @param transaction The transaction to delete.
+     */
     fun deleteTransaction(transaction: Transaction) {
         viewModelScope.launch {
             dao.deleteTransaction(transaction)

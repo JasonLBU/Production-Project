@@ -23,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,8 +37,6 @@ import com.example.productionproject.components.IncomeLabelColor
 import com.example.productionproject.components.PriceLabel
 import com.example.productionproject.components.TitleLabel
 import com.example.productionproject.data.Purchase
-import kotlinx.coroutines.selects.select
-import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -47,8 +44,8 @@ import kotlin.math.abs
 
 @Composable
 fun HistoryScreen(
-    purchases: List<Purchase>,
     navController: NavController,
+    purchases: List<Purchase>,
     totalBalance: Double,
     viewModel: FinanceViewModel,
     modifier: Modifier = Modifier

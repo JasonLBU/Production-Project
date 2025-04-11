@@ -3,7 +3,6 @@ package com.example.productionproject.data
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.math.BigDecimal
 
 @Entity(tableName = "purchases")
 data class Purchase(

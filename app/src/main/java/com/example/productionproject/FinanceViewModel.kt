@@ -1,6 +1,5 @@
 package com.example.productionproject
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.productionproject.data.Purchase
@@ -9,7 +8,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.math.BigDecimal
 
 class FinanceViewModel(private val dao: PurchaseDao) : ViewModel() {
 

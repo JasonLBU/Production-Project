@@ -40,6 +40,9 @@ import com.example.productionproject.components.TitleLabel
 import com.example.productionproject.data.Purchase
 import kotlinx.coroutines.selects.select
 import java.math.BigDecimal
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import kotlin.math.abs
 
 @Composable
@@ -253,6 +256,9 @@ fun FinanceInfo(
     labelColor: Color,
     modifier: Modifier = Modifier
 ) {
+    val dateFormat = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
+    val formattedDate = dateFormat.format(Date(entry.date))
+
     val sign = when (entry.type) {
         "Income" -> "+"
         "Expense" -> "-"
@@ -263,10 +269,21 @@ fun FinanceInfo(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(
-            text = "Title: ${entry.title}",
-            style = TitleLabel.copy(color = labelColor)
-        )
+        // Left side: Title + Date in a column
+        Column {
+            Text(
+                text = "Title: ${entry.title}",
+                style = TitleLabel.copy(color = labelColor)
+            )
+            Text(
+                text = "Date: $formattedDate",
+                style = MaterialTheme.typography.bodySmall.copy(
+                    color = labelColor
+                )
+            )
+        }
+
+        // Right side: Price
         Text(
             text = "$sign £${"%.2f".format(entry.price)}",
             style = PriceLabel.copy(color = labelColor)

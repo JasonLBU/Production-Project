@@ -10,5 +10,6 @@ data class Purchase(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "price") val price: Double,
-    @ColumnInfo(name = "type")val type: String
+    @ColumnInfo(name = "type")val type: String,
+    @ColumnInfo(name = "date") val date: Long = System.currentTimeMillis()
 )

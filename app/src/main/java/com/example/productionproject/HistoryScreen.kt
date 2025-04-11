@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -36,7 +35,7 @@ import com.example.productionproject.components.IncomeCardColor
 import com.example.productionproject.components.IncomeLabelColor
 import com.example.productionproject.components.PriceLabel
 import com.example.productionproject.components.TitleLabel
-import com.example.productionproject.data.Purchase
+import com.example.productionproject.data.Transaction
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -45,12 +44,12 @@ import kotlin.math.abs
 @Composable
 fun HistoryScreen(
     navController: NavController,
-    purchases: List<Purchase>,
+    transactions: List<Transaction>,
     totalBalance: Double,
     viewModel: FinanceViewModel,
     modifier: Modifier = Modifier
 ) {
-    var selectedEntry by remember { mutableStateOf<Purchase?>(null) }
+    var selectedEntry by remember { mutableStateOf<Transaction?>(null) }
 
     Column(
         modifier = modifier
@@ -103,7 +102,7 @@ fun HistoryScreen(
                 },
                 modifier = Modifier.weight(1f)
             ) {
-                Text(text = stringResource(id = R.string.add_purchase))
+                Text(text = stringResource(id = R.string.add_expense))
             }
 
             Button(
@@ -124,9 +123,9 @@ fun HistoryScreen(
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            items(purchases) { purchase ->
+            items(transactions) { transaction ->
                 FinanceItem(
-                    entry = purchase,
+                    entry = transaction,
                     onClick = {
                         selectedEntry = it
                     }
@@ -140,17 +139,17 @@ fun HistoryScreen(
         FinanceItemDialog(
             entry = entry,
             onDismiss = { selectedEntry = null},
-            onUpdate = { viewModel.updatePurchase(it)},
-            onDelete = { viewModel.deletePurchase(it) }
+            onUpdate = { viewModel.updateTransaction(it)},
+            onDelete = { viewModel.deleteTransaction(it) }
         )
     }
 }
 
 @Composable
 fun FinanceItem(
-    entry: Purchase,
+    entry: Transaction,
     modifier: Modifier = Modifier,
-    onClick: (Purchase) -> Unit
+    onClick: (Transaction) -> Unit
 ) {
     val cardColor = when (entry.type) {
         "Income" -> IncomeCardColor
@@ -181,10 +180,10 @@ fun FinanceItem(
 
 @Composable
 fun FinanceItemDialog(
-    entry: Purchase,
+    entry: Transaction,
     onDismiss: () -> Unit,
-    onUpdate: (Purchase) -> Unit,
-    onDelete: (Purchase) -> Unit
+    onUpdate: (Transaction) -> Unit,
+    onDelete: (Transaction) -> Unit
 ) {
     var updatedTitle by remember { mutableStateOf(entry.title) }
     var updatedPrice by remember { mutableStateOf(entry.price.toString()) }
@@ -220,11 +219,11 @@ fun FinanceItemDialog(
                     Button(onClick = {
                         val newPrice = updatedPrice.toDoubleOrNull()
                         if (updatedTitle.isNotBlank() && newPrice != null) {
-                            val updatedPurchase = entry.copy(
+                            val updatedTransaction = entry.copy(
                                 title = updatedTitle,
                                 price = newPrice
                             )
-                            onUpdate(updatedPurchase)
+                            onUpdate(updatedTransaction)
                             onDismiss()
                         }
                     }) {
@@ -249,7 +248,7 @@ fun FinanceItemDialog(
 
 @Composable
 fun FinanceInfo(
-    entry: Purchase,
+    entry: Transaction,
     labelColor: Color,
     modifier: Modifier = Modifier
 ) {

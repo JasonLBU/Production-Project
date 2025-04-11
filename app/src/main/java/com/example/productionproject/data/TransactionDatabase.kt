@@ -5,19 +5,19 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Purchase::class], version = 1)
-abstract class PurchaseDatabase: RoomDatabase() {
-    abstract fun purchaseDao(): PurchaseDao
+@Database(entities = [Transaction::class], version = 1)
+abstract class TransactionDatabase: RoomDatabase() {
+    abstract fun transactionDao(): TransactionDao
 
     companion object {
         @Volatile
-        private var INSTANCE: PurchaseDatabase? = null
+        private var INSTANCE: TransactionDatabase? = null
 
-        fun getDatabase(context: Context): PurchaseDatabase {
+        fun getDatabase(context: Context): TransactionDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    PurchaseDatabase::class.java,
+                    TransactionDatabase::class.java,
                     "Log-purchases"
                 ).build()
                 INSTANCE = instance

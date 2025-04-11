@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ProductionProject</string>
 
-    <string name="add_purchase">Add Purchase</string>
+    <string name="add_expense">Add Expense</string>
     <string name="add_income">Add Income</string>
 
     <string name="enter_title">Enter Title</string>

@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import com.example.productionproject.data.PurchaseDatabase
+import com.example.productionproject.data.TransactionDatabase
 import com.example.productionproject.ui.theme.ProductionProjectTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val dao = PurchaseDatabase.getDatabase(applicationContext).purchaseDao()
+            val dao = TransactionDatabase.getDatabase(applicationContext).transactionDao()
             val viewModelFactory = FinanceViewModelFactory(dao)
             val viewModel: FinanceViewModel by viewModels { viewModelFactory }
 

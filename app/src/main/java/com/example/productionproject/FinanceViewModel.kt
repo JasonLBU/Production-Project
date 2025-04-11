@@ -2,48 +2,48 @@ package com.example.productionproject
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.productionproject.data.Purchase
-import com.example.productionproject.data.PurchaseDao
+import com.example.productionproject.data.Transaction
+import com.example.productionproject.data.TransactionDao
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class FinanceViewModel(private val dao: PurchaseDao) : ViewModel() {
+class FinanceViewModel(private val dao: TransactionDao) : ViewModel() {
 
-    private val _purchaseList = MutableStateFlow<List<Purchase>>(emptyList())
-    val purchaseList: StateFlow<List<Purchase>> = _purchaseList.asStateFlow()
+    private val _transactionList = MutableStateFlow<List<Transaction>>(emptyList())
+    val transactionList: StateFlow<List<Transaction>> = _transactionList.asStateFlow()
 
     val totalBalance: Double
-        get() = _purchaseList.value.sumOf { purchase ->
-            if (purchase.type == "Income") purchase.price
-            else -purchase.price
+        get() = _transactionList.value.sumOf { transaction ->
+            if (transaction.type == "Income") transaction.price
+            else -transaction.price
         }
 
     init {
         viewModelScope.launch {
-            dao.getAllPurchases().collect { purchases ->
-                _purchaseList.value = purchases
+            dao.getAllTransaction().collect { transactions ->
+                _transactionList.value = transactions
             }
         }
     }
 
-    fun addPurchase(title: String, amount: Double, type: String) {
+    fun addTransaction(title: String, amount: Double, type: String) {
         viewModelScope.launch {
-            val purchase = Purchase(title = title, price = amount, type = type)
-            dao.insertPurchase(purchase)
+            val transaction = Transaction(title = title, price = amount, type = type)
+            dao.insertTransaction(transaction)
         }
     }
 
-    fun updatePurchase(purchase: Purchase) {
+    fun updateTransaction(transaction: Transaction) {
         viewModelScope.launch {
-            dao.updatePurchase(purchase)
+            dao.updateTransaction(transaction)
         }
     }
 
-    fun deletePurchase(purchase: Purchase) {
+    fun deleteTransaction(transaction: Transaction) {
         viewModelScope.launch {
-            dao.deletePurchase(purchase)
+            dao.deleteTransaction(transaction)
         }
     }
 }

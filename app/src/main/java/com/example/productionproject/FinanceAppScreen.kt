@@ -31,7 +31,7 @@ fun FinanceApp(
     modifier: Modifier = Modifier,
     viewModel: FinanceViewModel
 ) {
-    val purchases by viewModel.purchaseList.collectAsState()
+    val transactions by viewModel.transactionList.collectAsState()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = FinanceAppScreen.valueOf(
         backStackEntry?.destination?.route ?: FinanceAppScreen.History.name
@@ -48,7 +48,7 @@ fun FinanceApp(
             composable(route = FinanceAppScreen.History.name) {
                 HistoryScreen(
                     navController = navController,
-                    purchases = purchases,
+                    transactions = transactions,
                     totalBalance = viewModel.totalBalance,
                     viewModel = viewModel
                 )
@@ -59,7 +59,7 @@ fun FinanceApp(
                     navController = navController,
                     transactionType = "Expense",
                     onSubmit = { title, amount, type->
-                        viewModel.addPurchase(title, amount, type)
+                        viewModel.addTransaction(title, amount, type)
                     }
                 )
             }
@@ -69,7 +69,7 @@ fun FinanceApp(
                     navController = navController,
                     transactionType = "Income",
                     onSubmit = { title, amount, type->
-                        viewModel.addPurchase(title, amount, type)
+                        viewModel.addTransaction(title, amount, type)
                     }
                 )
             }

@@ -47,6 +47,7 @@ dependencies {
 
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.firebase.database)
     ksp("androidx.room:room-compiler:2.5.0")
 
     // Firebase Dependencies

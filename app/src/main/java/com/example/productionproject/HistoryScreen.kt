@@ -36,6 +36,7 @@ import com.example.productionproject.components.IncomeLabelColor
 import com.example.productionproject.components.PriceLabel
 import com.example.productionproject.components.TitleLabel
 import com.example.productionproject.data.Transaction
+import com.example.productionproject.data.TransactionFactory
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -101,7 +102,7 @@ fun HistoryScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Row of Nav Buttons
+        // Row of Nav Buttons for Income and Expense screens
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -127,13 +128,13 @@ fun HistoryScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Add the "Random Entry" button
+        RandomEntryButton(viewModel = viewModel)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         // Add the "Delete All" button
-        Button(
-            onClick = { viewModel.deleteAllTransactions() },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "Delete All Entries")
-        }
+        DeleteAllEntriesButton(viewModel = viewModel)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -328,3 +329,47 @@ fun FinanceInfo(
         )
     }
 }
+
+/**
+ * A composable button that, when clicked, generates a random transaction and adds it
+ * to the app's database through the provided [FinanceViewModel].
+ *
+ * @param viewModel the instance of [FinanceViewModel] that handles adding the transaction.
+ */
+@Composable
+fun RandomEntryButton(viewModel: FinanceViewModel) {
+    Button(
+        onClick = {
+            val factory = TransactionFactory()
+            val randomTransaction = factory.generateRandomTransaction()
+
+            viewModel.addTransaction(
+                title = randomTransaction.title,
+                amount = randomTransaction.price,
+                type = randomTransaction.type
+            )
+        },
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(text = stringResource(id = R.string.add_random_entry))
+    }
+}
+
+/**
+ * A composable button that, when clicked, calls the [FinanceViewModel.deleteAllTransactions]
+ * method to remove all transaction entries from the local database (and Firebase, if connected).
+ *
+ * @param viewModel the instance of [FinanceViewModel] managing database operations.
+ */
+@Composable
+fun DeleteAllEntriesButton(viewModel: FinanceViewModel) {
+    Button(
+        onClick = { viewModel.deleteAllTransactions() },
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(text = stringResource(id = R.string.delete_all_entries))
+    }
+}
+
+
+

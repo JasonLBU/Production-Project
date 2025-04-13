@@ -4,6 +4,11 @@
     <string name="add_expense">Add Expense</string>
     <string name="add_income">Add Income</string>
 
+    <string name="add_random_entry">Add Random Entry</string>
+    <string name="delete_all_entries">Delete All Entries</string>
+
+
+
     <string name="enter_title">Enter Title</string>
     <string name="enter_amount">Enter Amount</string>
 

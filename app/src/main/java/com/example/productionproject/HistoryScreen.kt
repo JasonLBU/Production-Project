@@ -36,6 +36,7 @@ import com.example.productionproject.components.IncomeLabelColor
 import com.example.productionproject.components.PriceLabel
 import com.example.productionproject.components.TitleLabel
 import com.example.productionproject.data.Transaction
+import com.example.productionproject.data.TransactionFactory
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

@@ -127,6 +127,16 @@ fun HistoryScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Add the "Delete All" button
+        Button(
+            onClick = { viewModel.deleteAllTransactions() },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Delete All Entries")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         // Separate LazyColumn for the finance log
         LazyColumn(
             modifier = modifier

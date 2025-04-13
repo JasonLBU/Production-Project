@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.productionproject.data.Transaction
 import com.example.productionproject.data.TransactionDao
+import com.example.productionproject.data.TransactionFactory
 import com.google.firebase.Firebase
 import com.google.firebase.database.database
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -111,6 +112,28 @@ class FinanceViewModel(private val dao: TransactionDao) : ViewModel() {
                 }
                 .addOnFailureListener { e ->
                     Log.w("FirebaseDB", "Error deleting transaction from Firebase", e)
+                }
+        }
+    }
+
+    /**
+     * Deletes all transactions from the local database and
+     * clears the 'transactions' node in the Firebase database.
+     */
+    fun deleteAllTransactions() {
+        viewModelScope.launch {
+            // Delete from Room
+            dao.deleteAllTransactions()
+
+            // Delete from Firebase
+            val database = Firebase.database
+            val transactionsRef = database.getReference("transactions")
+            transactionsRef.removeValue()
+                .addOnSuccessListener {
+                    Log.d("FirebaseDB", "All transactions deleted from Firebase successfully!")
+                }
+                .addOnFailureListener { e ->
+                    Log.w("FirebaseDB", "Error deleting all transactions from Firebase", e)
                 }
         }
     }

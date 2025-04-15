@@ -6,6 +6,9 @@
 
     <string name="add_random_entry">Add Random Entry</string>
     <string name="delete_all_entries">Delete All Entries</string>
+    <string name="delete_latest_entry">Delete Latest</string>
+    <string name="delete_oldest_entry">Delete Oldest</string>
+
 
 
 

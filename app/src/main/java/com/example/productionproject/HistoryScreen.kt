@@ -133,6 +133,9 @@ fun HistoryScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Add the "Delete Latest Entry" button
+        DeleteLatestEntryButton(transactions = transactions, viewModel = viewModel)
+
         // Add the "Delete All" button
         DeleteAllEntriesButton(viewModel = viewModel)
 
@@ -371,5 +374,22 @@ fun DeleteAllEntriesButton(viewModel: FinanceViewModel) {
     }
 }
 
+
+@Composable
+fun DeleteLatestEntryButton(
+    transactions: List<Transaction>,
+    viewModel: FinanceViewModel
+) {
+    Button(
+        onClick = {
+            if (transactions.isNotEmpty()) {
+                viewModel.deleteTransaction(transactions.first())
+            }
+        },
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(text = stringResource(id = R.string.delete_latest_entry))
+    }
+}
 
 

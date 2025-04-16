@@ -22,13 +22,16 @@ and programmed natively using Kotlin.
 
 ### Learning with Kotlin
 <p>
-Through the development of the project, the learning and understanding with Kotlin wiil involve using a new IDE and utilising concepts within Kotlin, alongside Google introducing it's newest UI development toolkit
-'Jetpack Compose' from its previous switch of XML layout views.
+Through the development of the project, the learning and understanding with Kotlin will involve using a new IDE and utilising concepts within Kotlin, alongside Google introducing it's newest UI development toolkit
+'Jetpack Compose' from its previous switch of XML layout views, to gain a specialized skill set in Android development
 </p>
 
-#Features
+# App Features
 <ul>
 <li>Expense & Income Tracking</li>
+<li>Update & Delete transactions</li>
+<li>Auto add random transactions</li>
 <li>Balance Budget Management</li>
-<li>Data Syncing and Backup</li>
+<li>Local Room persistence storage</li>
+<li>Firebase data syncing and Backup</li>
 </ul>

@@ -6,6 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 /**
+ * Acknowledgement:
+ * Development of this Room database file was aided from official documentation guide, and modified
+ * accordingly to interact with the logic and files of this app
+ *
+ * https://developer.android.com/training/data-storage/room
+ *
  * The Room database for the finance tracker app.
  *
  * Contains a single table [Transaction] and serves as the main access point

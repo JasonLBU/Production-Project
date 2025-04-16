@@ -5,6 +5,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 /**
+ * Acknowledgement:
+ * Development of this room database file was aided from official documentation guide, and modified
+ * accordingly to interact with the logic and files of this app
+ *
+ * https://developer.android.com/training/data-storage/room
+ *
  * Entity data class representing a financial transaction in the app*
  */
 @Entity(tableName = "transactions")

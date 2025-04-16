@@ -8,7 +8,13 @@ import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 /**
- *  Data Access Object (DAO) for performing CRUD operations on the transactions table.
+ * Acknowledgement:
+ * Development of this Room database file was aided from official documentation guide, and modified
+ * accordingly to interact with the logic and files of this app
+ *
+ * https://developer.android.com/training/data-storage/room
+ *
+ * Data Access Object (DAO) for performing CRUD operations on the transactions table.
  */
 @Dao
 interface TransactionDao {

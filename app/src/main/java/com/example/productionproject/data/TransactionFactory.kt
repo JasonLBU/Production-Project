@@ -9,7 +9,7 @@ enum class TransactionType {
 
 class TransactionFactory {
     // Defined sample titles for income and expenses.
-    private val incomeTitles = listOf("Salary", "Bonus", "Cash", "Investment", "commisi")
+    private val incomeTitles = listOf("Salary", "Bonus", "Cash", "Investment")
     private val expenseTitles = listOf("Groceries", "Utilities", "Rent", "Entertainment", "Transportation")
 
     /**
@@ -29,7 +29,7 @@ class TransactionFactory {
         }
 
         // Generate a random amount
-        val amount = random.nextDouble(10.0, 1000.0)
+        val amount = random.nextDouble(10.0, 200.0)
         return Transaction(
             title = title,
             price = amount,

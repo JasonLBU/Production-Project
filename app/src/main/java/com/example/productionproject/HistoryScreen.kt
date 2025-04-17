@@ -224,7 +224,7 @@ fun FinanceItemDialog(
     onDelete: (Transaction) -> Unit
 ) {
     var updatedTitle by remember { mutableStateOf(entry.title) }
-    var updatedPrice by remember { mutableStateOf(entry.price.toString()) }
+    var updatedPrice by remember { mutableStateOf(String.format(Locale.getDefault(), "%.2f", entry.price)) }
 
     Dialog(onDismissRequest = onDismiss) {
         Card(
